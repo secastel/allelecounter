@@ -1,5 +1,4 @@
 import argparse;
-import steve_tools;
 import subprocess;
 import vcf;
 import calendar;
@@ -45,7 +44,7 @@ def main():
 	out_stream.write("contig	position	variantID	refAllele	altAllele	refCount	altCount	totalCount	lowMAPQDepth	lowBaseQDepth	rawDepth	otherBases\n");
 	
 	for line in pileup_result.splitlines():
-		cols = steve_tools.get_cols(line);
+		cols = line.replace("\n","").split("\t");
 		#chr	pos	REF	count	reads
 		chr = cols[0];
 		pos = int(cols[1]);
