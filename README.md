@@ -8,7 +8,7 @@ Requires a BAM, VCF, and Reference, produces read counts for each allele at each
 ##Arguments
 * **--vcf** - VCF file containing genotype for the sample. Must be gzipped and Tabix indexed. To improve runtime this file should be pre-processed to only include bi-allelic heterozygous SNPs.
 * **--sample** - Name of sample to use in VCF file.
-* **--bam** - BAM file containing reads. Duplicates should be marked, and file must be indexed with samtools index.
+* **--bam** - BAM file containing reads. Duplicates should be marked, and file must be indexed with Samtools index.
 * **--ref** - Reference sequence in FASTA format.
 * **--min_cov** - Minimum coverage for a SNP before it is included in output. Minimum is 2 becuase samtools will not generate pileups for sites with only 1 read.
 * **--min_baseq** - Minimum base quality at the SNP required for reads to be counted.
