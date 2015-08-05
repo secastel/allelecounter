@@ -28,10 +28,7 @@ def main():
 	#1 perform the pileup using samtools
 	print("Generating pileup...");
 	#A unzip the VCF and convert to BED use samtools to produce a read pileup
-	if ".gz" in args.vcf:
-		pileup_result = subprocess.check_output("gunzip -c "+args.vcf+" | awk 'BEGIN { OFS=\"\t\"; FS=\"\t\"; } { if (index($0, \"#\") == 0) { print($1,$2-1,$2,$3,$6,$4,$5,$7,$8,$9); } }' | samtools mpileup -I -B -q 0 -Q 0 -s -l - -f "+args.ref+" "+args.bam, shell=True);
-	else:
-		pileup_result = subprocess.check_output("cat "+args.vcf+" | awk 'BEGIN { OFS=\"\t\"; FS=\"\t\"; } { if (index($0, \"#\") == 0) { print($1,$2-1,$2,$3,$6,$4,$5,$7,$8,$9); } }' | samtools mpileup -I -B -q 0 -Q 0 -s -l - -f "+args.ref+" "+args.bam, shell=True);
+	pileup_result = subprocess.check_output("gunzip -c "+args.vcf+" | awk 'BEGIN { OFS=\"\t\"; FS=\"\t\"; } { if (index($0, \"#\") == 0) { print($1,$2-1,$2,$3,$6,$4,$5,$7,$8,$9); } }' | samtools mpileup -I -B -q 0 -Q 0 -s -l - -f "+args.ref+" "+args.bam, shell=True);
 	
 	# 2 process the mpileup result
 	# A load the VCF
@@ -58,12 +55,12 @@ def main():
 				# only want bi-allelic SNPS
 				if len(record.ALT) == 1 and len(record.REF) == 1 and len(record.ALT[0]) == 1:
 					#only what heterozygous sites
-					for sample in record.samples:
-						if sample['GT'].count("1") == 1 and sample['GT'].count("0") == 1:
-							ref = str(record.REF);
-							alt = str(record.ALT[0]);
-							if record.ID != None:
-								rsid = str(record.ID);
+					genotype = record.genotype(args.sample)['GT']
+					if genotype.count("1") == 1 and genotype.count("0") == 1:
+						ref = str(record.REF);
+						alt = str(record.ALT[0]);
+						if record.ID != None:
+							rsid = str(record.ID);
 					
 		# if the site is biallelic and we have ref / alt genotype data go ahead and do the read counts
 		if ref != "" and alt != "":
