@@ -106,7 +106,7 @@ def main():
 						low_mapq += 1;
 			totalCount = ref_count+alt_count;
 			
-			if totalCount > args.min_cov:
+			if totalCount >= args.min_cov:
 				out_stream.write("\t".join([cols[0],cols[1],rsid,ref,alt,str(ref_count),str(alt_count),str(totalCount),str(low_mapq),str(low_baseq),str(raw_depth),str(other_count),"\n"]));
 	
 	out_stream.close();
