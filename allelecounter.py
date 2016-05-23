@@ -70,9 +70,13 @@ def main():
 			out_reads = [];
 			for read in reads:
 				if block == -1:
-					block = int(read);
+					if ord(read) >= 48 and ord(read) <= 57:
+						block_str += read;
+					else:
+						block = int(block_str) - 1;
 				elif read == "+" or read == "-":
 					block = -1;
+					block_str = "";
 				elif block > 0:
 					block -= 1;
 				elif block == 0:
