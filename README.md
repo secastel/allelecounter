@@ -2,6 +2,9 @@
 Counts the number of reads which map to either the reference or alternate allele at each heterozygous SNP.
 Runs on Python2.7.x and has the following dependencies: [pyvcf](https://github.com/jamescasbon/PyVCF), [Samtools](http://www.htslib.org) (1.2+), awk.
 
+# Citation
+Castel, S. E., Levy-Moonshine, A., Mohammadi, P., Banks, E. & Lappalainen, T. Tools and best practices for data processing in allelic expression analysis. Genome Biol. 16, 195 (2015).
+
 # Usage
 Requires a BAM, VCF, and Reference, produces read counts for each allele at each heterozygous SNP. Output is in the same format as the [GATK ASEReadCounterTool](https://www.broadinstitute.org/gatk/gatkdocs/org_broadinstitute_gatk_tools_walkers_rnaseq_ASEReadCounter.php) for cross compatibility. If you would like to exclude duplicate reads they must first be marked using a separate tool, as this script does not mark duplicate reads itself. I suggest using [Picard](https://broadinstitute.github.io/picard/) MarkDuplicates. If duplicate reads have been marked, this tool will discard them. Reads whose mates overlap will only be counted once. For more flexibility please consider using the GATK tool.
 
