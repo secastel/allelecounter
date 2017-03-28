@@ -2,10 +2,10 @@
 Counts the number of reads which map to either the reference or alternate allele at each heterozygous SNP.
 Runs on Python2.7.x and has the following dependencies: [pyvcf](https://github.com/jamescasbon/PyVCF), [Samtools](http://www.htslib.org) (1.2+), awk.
 
-#Usage
-Requires a BAM, VCF, and Reference, produces read counts for each allele at each heterozygous SNP. Output is in the same format as the [GATK ASEReadCounterTool](https://www.broadinstitute.org/gatk/gatkdocs/org_broadinstitute_gatk_tools_walkers_rnaseq_ASEReadCounter.php) for cross compatibility. By default this tool will discard duplicate reads, and only count reads whose mates overlap once. For more flexibility please consider using the GATK tool.
+# Usage
+Requires a BAM, VCF, and Reference, produces read counts for each allele at each heterozygous SNP. Output is in the same format as the [GATK ASEReadCounterTool](https://www.broadinstitute.org/gatk/gatkdocs/org_broadinstitute_gatk_tools_walkers_rnaseq_ASEReadCounter.php) for cross compatibility. If you would like to exclude duplicate reads they must first be marked using a separate tool, as this script does not mark duplicate reads itself. I suggest using [Picard](https://broadinstitute.github.io/picard/) MarkDuplicates. If duplicate reads have been marked, this tool will discard them. Reads whose mates overlap will only be counted once. For more flexibility please consider using the GATK tool.
 
-##Arguments
+## Arguments
 * **--vcf** - VCF file containing genotype for the sample. Must be gzipped and Tabix indexed. To improve runtime this file should be pre-processed to only include bi-allelic heterozygous SNPs.
 * **--sample** - Name of sample to use in VCF file.
 * **--bam** - BAM file containing reads. Duplicates should be marked, and file must be indexed with Samtools index.
