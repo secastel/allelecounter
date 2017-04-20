@@ -18,6 +18,7 @@ def main():
 	parser.add_argument("--min_cov", required=True, type=int, help="Minimum total coverage to report read counts")
 	parser.add_argument("--min_baseq", required=True, type=int, help="Minimum base quality to count reads")
 	parser.add_argument("--min_mapq", required=True, type=int, help="Minimum map quality to count reads")
+	parser.add_argument("--max_depth", required=False, type=int, default=100000, help="Maxmimum mpileup depth")
 	parser.add_argument("--o", required=True, help="Output file")
 	args = parser.parse_args()
 	
@@ -28,7 +29,7 @@ def main():
 	
 	start_timestamp = calendar.timegm(time.gmtime());
 	
-	version = "0.5";
+	version = "0.6";
 	print("");
 	print("##################################################")
 	print("          Welcome to allelecounter v%s"%(version));
@@ -46,7 +47,7 @@ def main():
 	
 	#A unzip the VCF and convert to BED use samtools to produce a read pileup
 	if args.vcf.endswith(".gz"):
-		subprocess.check_output("gunzip -c "+args.vcf+" | awk 'BEGIN { OFS=\"\t\"; FS=\"\t\"; } { if (index($0, \"#\") == 0) { print($1,$2-1,$2,$3,$6,$4,$5,$7,$8,$9); } }' | samtools mpileup -I -B -q 0 -Q 0 -s -l - -f "+args.ref+" "+args.bam+" > "+pileup_out.name, shell=True);
+		subprocess.check_output("gunzip -c "+args.vcf+" | awk 'BEGIN { OFS=\"\t\"; FS=\"\t\"; } { if (index($0, \"#\") == 0) { print($1,$2-1,$2,$3,$6,$4,$5,$7,$8,$9); } }' | samtools mpileup -d "+str(args.max_depth)+" -I -B -q 0 -Q 0 -s -l - -f "+args.ref+" "+args.bam+" > "+pileup_out.name, shell=True);
 	else:
 		print("FATAL ERROR: input VCF must be gzipped and indexed.")
 		quit();
