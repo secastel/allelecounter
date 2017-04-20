@@ -16,4 +16,5 @@ Requires a BAM, VCF, and Reference, produces read counts for each allele at each
 * **--min_cov** - Minimum coverage for a SNP before it is included in output. Minimum is 2 becuase samtools will not generate pileups for sites with only 1 read.
 * **--min_baseq** - Minimum base quality at the SNP required for reads to be counted.
 * **--min_mapq** - Mimimum mapping qualityfor reads to be counted. Note that due to limitations with Samtools mpileup the maximum value is 93. Any value higher than 93 will be set to 93.
+* **--max_depth** _(100000)_ - Maximum depth to report at each heterozygous variant when calling samtools mpileup. This value must be greater than the most covered site in your data. Any sites that are covered by more reads than this depth could have false positive signals of allelic imbalance because samtools does not randomly sample reads.
 * **--o** - Output file name.
