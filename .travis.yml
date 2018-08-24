@@ -9,7 +9,7 @@ before_install:
     - tar -vxjf samtools-1.6.tar.bz2
     - cd samtools-1.6
     - make
-    - sudo make install
+    - sudo make install; cd ..  ## return to home directory
 install:
     - sudo apt-get -y update
     - sudo apt-get -y update
