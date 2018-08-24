@@ -1,0 +1,22 @@
+language: python
+python:
+    - 2.7
+    - 3.4
+    - 3.5
+    - 3.6
+before_install:
+    - wget https://github.com/samtools/samtools/releases/download/1.6/samtools-1.6.tar.bz2
+    - tar -vxjf samtools-1.6.tar.bz2
+    - cd samtools-1.6
+    - make
+    - sudo make install
+install:
+    - sudo apt-get -y update
+    - sudo apt-get -y update
+    - sudo apt-get -y install r-base
+    - pip install codecov
+    - pip install -r requirements.txt
+script:
+    - nosetests
+after_success:
+    - codecov
