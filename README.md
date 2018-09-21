@@ -1,6 +1,9 @@
+[![Build Status](https://api.travis-ci.org/secastel/allelecounter.svg?branch=master)](https://travis-ci.org/secastel/allelecounter?branch=master)
+
+
 # allelecounter
 Counts the number of reads which map to either the reference or alternate allele at each heterozygous SNP.
-Runs on Python2.7.x and has the following dependencies: [pyvcf](https://github.com/jamescasbon/PyVCF), [Samtools](http://www.htslib.org) (1.2+), awk.
+Runs on Python2.7.x and has the following dependencies: [pysam](https://github.com/pysam-developers/pysam), [Samtools](http://www.htslib.org) (1.2+), awk.
 
 # Citation
 Castel, S. E., Levy-Moonshine, A., Mohammadi, P., Banks, E. & Lappalainen, T. Tools and best practices for data processing in allelic expression analysis. Genome Biol. 16, 195 (2015).
@@ -17,4 +20,4 @@ Requires a BAM, VCF, and Reference, produces read counts for each allele at each
 * **--min_baseq** - Minimum base quality at the SNP required for reads to be counted.
 * **--min_mapq** - Mimimum mapping qualityfor reads to be counted. Note that due to limitations with Samtools mpileup the maximum value is 93. Any value higher than 93 will be set to 93.
 * **--max_depth** _(100000)_ - Maximum depth to report at each heterozygous variant when calling samtools mpileup. This value must be greater than the most covered site in your data. Any sites that are covered by more reads than this depth could have false positive signals of allelic imbalance because samtools does not randomly sample reads.
-* **--o** - Output file name.
+* **--output** - Output file name.
