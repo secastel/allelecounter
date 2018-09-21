@@ -57,12 +57,11 @@ def main():
 		quit()
 	
 	# 2 process the mpileup result
-	# A load the VCF
-	#vcf_reader = vcf.Reader(filename=args.vcf)
-	vcf_reader = pysam.Tabixfile(args.vcf,"r")
+	# A) load the VCF
+	vcf_reader = pysam.Tabixfile(args.vcf, "r")
 	vcf_map = sample_column_map(args.vcf)
 	
-	# B go through the pileup result line by line
+	# B) go through the pileup result line by line
 	out_stream = open(args.output, "w")
 	
 	print("Processing pileup...")
@@ -82,14 +81,14 @@ def main():
 		records = vcf_reader.fetch(chr,pos-1,pos)
 		
 		for record in records:
-			vcf_cols = record.rstrip().split("\t")
+			vcf_cols = record.split("\t")
 			if int(vcf_cols[1]) == pos:
 				alleles = [vcf_cols[3]] + vcf_cols[4].split(",")
 				gt_index = vcf_cols[8].split(":").index("GT")
 				gt = vcf_cols[vcf_map[args.sample]].split(":")[gt_index].replace("|","").replace("/","")
 				# only want heterozygous sites
 				if len(set(gt)) > 1:
-					allele_indices = map(int, list(gt))
+					allele_indices = list(map(int, list(gt)))
 					# set ref to minimum allele index
 					ref = alleles[min(allele_indices)]
 					# and alt to max
@@ -162,8 +161,8 @@ def sample_column_map(path, start_col=9, line_key="#CHR"):
 	
 	out_map = {}
 	for line in stream_in:
-		if line_key in line:
-			line = line.rstrip().split("\t")
+		if line_key in line.decode('ASCII'): 
+			line = line.decode('ASCII').replace("\n","").split("\t")
 			for i in range(start_col,len(line)):
 				out_map[line[i]] = i
 		
