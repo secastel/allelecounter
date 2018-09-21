@@ -81,7 +81,7 @@ def main():
 		records = vcf_reader.fetch(chr,pos-1,pos)
 		
 		for record in records:
-			vcf_cols = record.split("\t")
+			vcf_cols = record.rstrip().split("\t")
 			if int(vcf_cols[1]) == pos:
 				alleles = [vcf_cols[3]] + vcf_cols[4].split(",")
 				gt_index = vcf_cols[8].split(":").index("GT")
@@ -162,7 +162,7 @@ def sample_column_map(path, start_col=9, line_key="#CHR"):
 	out_map = {}
 	for line in stream_in:
 		if line_key in line.decode('ASCII'): 
-			line = line.decode('ASCII').replace("\n","").split("\t")
+			line = line.decode('ASCII').rstrip().split("\t")
 			for i in range(start_col,len(line)):
 				out_map[line[i]] = i
 		
